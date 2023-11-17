@@ -1,6 +1,9 @@
+from enums import Number
+
 import pygame
 from pygame.rect import *
 import random
+
 
 class Launcher:
     def __init__(self):
@@ -9,6 +12,13 @@ class Launcher:
         self.setup_score()
         self.setup_obstacles()
         self.setup_benefits()
+
+    def restart():
+        global score, isGameOver
+        for i in range(len(star)):
+            rectStar[i].y = -1
+        score = 0
+        isGameOver = False
 
     def setup_game(self):
         # 게임 설정 초기화
@@ -33,6 +43,26 @@ class Launcher:
     def update_game_state(self):
         # 게임 상태 (타이머, 국면 등) 업데이트
         pass
+
+    def eventProcess(move):
+        global isActive
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    isActive = False
+                if event.key == pygame.K_LEFT:
+                    move.x = -1
+                if event.key == pygame.K_RIGHT:
+                    move.x = 1
+                if event.key == pygame.K_r:
+                    restart()
+
+    def movePlayer(player, current, move, isGameOver):
+        global SCREEN_WIDTH, SCREEN_HEIGHT
+        if not isGameOver:
+            current.x += move.x
+
 
     def handle_player_input(self):
         # 플레이어 입력 처리
@@ -61,5 +91,3 @@ class Launcher:
     def end_game(self):
         # 게임 종료 로직
         pass
-
-
